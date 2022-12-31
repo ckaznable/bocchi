@@ -4,7 +4,7 @@ terminal commend `bocchi` will show bocchi chan color block
 
 ## demo
 
-![image]("assets/demo.gif")
+![image](assets/demo.gif)
 
 ## Usage
 
