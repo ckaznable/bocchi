@@ -56,6 +56,7 @@ fn ui<B: Backend>(f: &mut Frame<B>) {
     // Just draw the block and the group on the same area and build the group
     // with at least a margin of 1
     let size = f.size();
+    const SHOW_HINT_WIDTH: u16 = 60;
 
     // Surrounding block
     let block = Block::default();
@@ -66,9 +67,14 @@ fn ui<B: Backend>(f: &mut Frame<B>) {
         .constraints([Constraint::Percentage(100)].as_ref())
         .split(size);
 
+    let mut constraints = vec![Constraint::Percentage(if size.width < SHOW_HINT_WIDTH {10} else {5}), Constraint::Percentage(30)];
+    if size.width > SHOW_HINT_WIDTH {
+        constraints.push(Constraint::Min(0));
+    }
+
     let top_chunks = Layout::default()
         .direction(Direction::Horizontal)
-        .constraints([Constraint::Percentage(5), Constraint::Percentage(30), Constraint::Min(0)].as_ref())
+        .constraints(constraints.as_ref())
         .split(chunks[0]);
 
     let block = Block::default()
@@ -89,7 +95,9 @@ fn ui<B: Backend>(f: &mut Frame<B>) {
         .style(Style::default().bg(Color::Rgb(210, 178, 73)));
     f.render_widget(block, left_chunks[1]);
 
-    let block = Block::default()
-        .title("Press <Q> exit");
-    f.render_widget(block, top_chunks[2]);
+    if size.width > SHOW_HINT_WIDTH {
+        let block = Block::default()
+            .title("Press <Q> exit");
+        f.render_widget(block, top_chunks[2]);
+    }
 }
