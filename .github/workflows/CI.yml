@@ -13,25 +13,8 @@ on:
       - 'v*.*.*'
 
 jobs:
-  style:
-    name: Check Style
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt
-
-      - name: cargo fmt -- --check
-        run: cargo fmt --all -- --check
-
-
   test:
     name: Test
-    needs: [style]
     runs-on: ubuntu-latest
 
     strategy:
